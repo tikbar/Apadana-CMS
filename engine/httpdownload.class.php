@@ -13,7 +13,8 @@ defined('security') or exit('Direct Access to this location is not allowed.');
 
 /**
  @author Nguyen Quoc Bao <quocbao.coder@gmail.com>
- @version 1.3
+ @some_improvements Apadana Development Team <info@apadanacms.ir>
+ @version 1.5
  @desc A simple object for processing download operation , support section downloading
  Please send me an email if you find some bug or it doesn't work with download manager.
  I've tested it with
@@ -54,7 +55,7 @@ class httpdownload {
 	var $data_len = 0;
 	var $data_mod = 0;
 	var $data_type = 0;
-	var $data_section = 0; //section download
+	var $protocol = null;
 	/**
 	 * @var ObjectHandler
 	 **/
@@ -88,19 +89,28 @@ class httpdownload {
 	 **/
 	function initialize() {
 		global $HTTP_SERVER_VARS;
-
+		$this->protocol = isset($_SERVER['SERVER_PROTOCOL']) && !empty($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : "HTTP/1.1";
+		
+		($hook = get_hook('download_init_start'))? eval($hook) : null;
+		
 		if ($this->use_auth) //use authentication
 		{
 			if (!$this->_auth()) //no authentication
 			{
 				header('WWW-Authenticate: Basic realm="Please enter your username and password"');
-				header('HTTP/1.0 401 Unauthorized');
+				header($this->protocol . ' 401 Unauthorized');
 				header('status: 401 Unauthorized');
-				if ($this->use_autoexit) exit();
-					return false;
+				if ($this->use_autoexit){
+					exit();
+				}
+				else{
+					define('no_headers',true);
+					define('no_template',true);
+				}
 			}
+			($hook = get_hook('download_use_auth'))? eval($hook) : null;
 		}
-		if ($this->mime == null) $this->mime = "application/octet-stream"; //default mime
+		if ($this->mime == null) $this->mime = "application/force-download"; //default mime
 
 		if (isset($_SERVER['HTTP_RANGE']) || isset($HTTP_SERVER_VARS['HTTP_RANGE']))
 		{
@@ -119,42 +129,42 @@ class httpdownload {
 			else $this->seek_end = -1;
 
 			if (!$this->use_resume)
-			{
 				$this->seek_start = 0;
-
-				//header("HTTP/1.0 404 Bad Request");
-				//header("Status: 400 Bad Request");
-
-				//exit;
-
-				//return false;
-			}
-			else
-			{
-				$this->data_section = 1;
-			}
-
 		}
 		else
 		{
 			$this->seek_start = 0;
 			$this->seek_end = -1;
 		}
-
+		($hook = get_hook('download_init_end'))? eval($hook) : null;
 		return true;
 	}
 	/**
 	 * Send download information header
 	 **/
 	function header($size,$seek_start=null,$seek_end=null) {
+		
+		if ($this->use_resume)
+		{
+			header( $this->protocol . " 206 Partial Content" );
+			header("Status: 206 Partial Content");
+		}
+		else{
+			header( $this->protocol . " 200 OK" );
+			header("Status: 200 OK");
+		}
+
+		header( "Pragma: public" );
+		header( "Expires: 0" );
+		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+		header( "Cache-Control: private", false);
 		header('Content-type: ' . $this->mime);
 		header('Content-Disposition: attachment; filename="' . $this->filename . '"');
-		header('Last-Modified: ' . date('D, d M Y H:i:s \G\M\T' , $this->data_mod));
-
-		if ($this->data_section && $this->use_resume)
+		header( "Content-Transfer-Encoding: binary" );
+		header('Last-Modified: ' . (gmdate('D, d M Y H:i:s').' GMT') , $this->data_mod);
+		
+		if ($this->use_resume)
 		{
-			header("HTTP/1.0 206 Partial Content");
-			header("Status: 206 Partial Content");
 			header('Accept-Ranges: bytes');
 			header("Content-Range: bytes $seek_start-$seek_end/$size");
 			header("Content-Length: " . ($seek_end - $seek_start + 1));
@@ -163,6 +173,7 @@ class httpdownload {
 		{
 			header("Content-Length: $size");
 		}
+		($hook = get_hook('download_header'))? eval($hook) : null;
 	}
 
 	function download_ex($size)
@@ -172,8 +183,9 @@ class httpdownload {
 		//Use seek end here
 		if ($this->seek_start > ($size - 1)) $this->seek_start = 0;
 		if ($this->seek_end <= 0) $this->seek_end = $size - 1;
-		$this->header($size,$seek,$this->seek_end);
 		$this->data_mod = time();
+		($hook = get_hook('download_ex'))? eval($hook) : null;
+		$this->header($size,$this->seek_start,$this->seek_end);
 		return true;
 	}
 
@@ -200,7 +212,7 @@ class httpdownload {
 		$this->bandwidth = 0;
 
 		$size = $this->data_len;
-
+		($hook = get_hook('download_start'))? eval($hook) : null;
 		if ($this->data_type == 0) //download from a file
 		{
 
@@ -276,8 +288,11 @@ class httpdownload {
 			//just send a redirect header
 			header('location: ' . $this->data);
 		}
-
-		if ($this->use_autoexit) exit();
+		($hook = get_hook('download_end'))? eval($hook) : null;
+		if ($this->use_autoexit)
+			exit();
+		else
+			define('no_headers',true);
 
 		//restore old status
 		ignore_user_abort($old_status);
@@ -337,7 +352,9 @@ class httpdownload {
 		if (!isset($_SERVER['PHP_AUTH_USER'])) return false;
 		if (isset($this->handler['auth']) && function_exists($this->handler['auth']))
 		{
-			return $this->handler['auth']('auth' , $_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW']);
+			$auth = $this->handler['auth']('auth' , $_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW']);
+			($hook = get_hook('download_auth'))? eval($hook) : null;
+			return $auth;
 		}
 		else return true; //you must use a handler
 	}
