@@ -161,7 +161,7 @@ class httpdownload {
 		header('Content-type: ' . $this->mime);
 		header('Content-Disposition: attachment; filename="' . $this->filename . '"');
 		header( "Content-Transfer-Encoding: binary" );
-		header('Last-Modified: ' . (gmdate('D, d M Y H:i:s').' GMT') , $this->data_mod);
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s \G\M\T' , $this->data_mod));
 		
 		if ($this->use_resume)
 		{
