@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Iman Moodi (Iman92)
+ * @author: Apadana Development Team
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -136,7 +136,7 @@ function head()
 	$Header .= '<base href="'.url.'" />'.n;
 	$Header .= '<meta http-equiv="content-type" content="text/html; charset='.charset.'" />'.n;
 	$Header .= '<meta name="author" content="'.$options['title'].'" />'.n;
-	$Header .= base64_decode('PG1ldGEgbmFtZT0iZ2VuZXJhdG9yIiBjb250ZW50PSJBcGFkYW5hIENtcyBDb3B5cmlnaHQgwqkg') . date('Y') . base64_decode('IGJ5IEltYW4gTW9vZGkgKHd3dy5hcGFkYW5hY21zLmlyKSIgLz4=').n;
+	$Header .= base64_decode('PG1ldGEgbmFtZT0iZ2VuZXJhdG9yIiBjb250ZW50PSJBcGFkYW5hIENNUw==') . version . base64_decode('IiAvPg==').n;
 	$Header .= '<meta name="description" content="'.$page['meta']['description'].'" />'.n;
 	$Header .= '<meta name="keywords" content="'.$page['meta']['keywords'].'" />'.n;
 	$Header .= '<meta name="distribution" content="global" />'.n;

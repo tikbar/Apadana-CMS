@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Iman Moodi (Iman92)
+ * @author: Apadana Development Team
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -262,7 +262,7 @@ switch ($_GET['action'])
 		$php  = '<?php'."\r\n";
 		$php .= '/**'."\r\n";
 		$php .= ' * @In the name of God!'."\r\n";
-		$php .= ' * @author: Iman Moodi (Iman92)'."\r\n";
+		$php .= ' * @author: Apadana Development Team'."\r\n";
 		$php .= ' * @email: info@apadanacms.ir'."\r\n";
 		$php .= ' * @link: http://www.apadanacms.ir'."\r\n";
 		$php .= ' * @license: http://www.gnu.org/licenses/'."\r\n";
@@ -514,7 +514,7 @@ switch ($_GET['action'])
 	if (isset($result))
 	{
 		echo '<script>set_percent(615)</script>'."\n";
-		print_info('پایان نصب آپادانا', 'تبریک! سایت آپادانایی شما با موفقیت ایجاد شده است و می توانید از آن لذت ببرید.<br>برای انتخاب آپادانا از شما سپاس گذاریم.<br>ایمان مودی');
+		print_info('پایان نصب آپادانا', 'تبریک! سایت آپادانایی شما با موفقیت ایجاد شده است و می توانید از آن لذت ببرید.<br>برای انتخاب آپادانا از شما سپاس گذاریم.<br>');
 		
 		echo '<br><center>'."\n";
 		echo '<a href="'.url.'" target="_blank"><b>مشاهده سایت</b></a><br><br>'."\n";
@@ -529,7 +529,7 @@ switch ($_GET['action'])
 		$MailHeader .= 'Return-Path: admin@apadanacms.ir <admin@apadanacms.ir> /n'; // Indicates Return-path
 		$MailHeader .= 'Reply-To: admin@apadanacms.ir <admin@apadanacms.ir> /n'; // Reply-to Address
 		$MailHeader .= 'X-Mailer: PHP/' . phpversion(); // For X-Mailer
-		$Body = "<div style='direction: rtl;text-align: right;font-family: Tahoma;font-size: 10pt'><b>سایت شما با موفقیت ساخته شد!<br>از انتخاب آپادانا سپاس گذاریم.</b><br>ایمان مودی</div>";
+		$Body = "<div style='direction: rtl;text-align: right;font-family: Tahoma;font-size: 10pt'><b>سایت شما با موفقیت ساخته شد!<br>از انتخاب آپادانا سپاس گذاریم.</b><br></div>";
 		@mail($_POST['admin']['email'], "یک سایت جدید با آپادانا!", $Body, $MailHeader);
 
 		file_put_contents('apadana.lock', 'Copyright © 2012-'.date('Y').' ApadanaCms.ir. All rights reserved.');
