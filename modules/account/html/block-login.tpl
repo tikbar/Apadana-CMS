@@ -1,7 +1,7 @@
 <div id="apadana-block-login">
 [member]<center><img src="{avatar}" style="max-width:99%;margin:5px 0px" /></center>
 <ul id="apadana-block-login-links">
-	<li id="apadana-block-login-account"><a href="{a href='account'}">{name} عزیر خوش آمدید!</a></li>[private-messages]
+	<li id="apadana-block-login-account"><a href="{a href='account'}">{name} عزیز ، خوش آمدید!</a></li>[private-messages]
 	<li id="apadana-block-login-private-messages"><a href="{a href='private-messages'}">شما <font color="red">{private-messages}</font> پیام جدید دارید!</a></li>[/private-messages]
 	<li id="apadana-block-login-profile-edit"><a href="{a href='account/profile-edit'}">ویرایش پروفایل</a></li>
 	<li id="apadana-block-login-change-password"><a href="{a href='account/change-password'}">تغییر پسورد</a></li>
