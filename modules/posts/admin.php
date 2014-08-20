@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -15,11 +15,11 @@ function module_posts_info()
 {
 	return array(
 		'name' => 'posts',
-		'version' => '1.0.1',
+		'version' => '1.0',
 		'creationDate' => '2012-07-21 18:00:03',
 		'description' => 'ماژول پست های آپادانا.',
-		'author' => 'Apadana Development Team',
-		'authorEmail' => 'info@apadanacms.ir',
+		'author' => 'iman moodi',
+		'authorEmail' => 'imanmoodi@yahoo.com',
 		'authorUrl' => 'http://www.apadanacms.ir',
 		'license' => 'GNU/GPL'
 	);
@@ -40,7 +40,7 @@ function module_posts_admin_comments($action, $data = array())
 		break;
 		
 		case 'url';
-		$query = "SELECT post_name, post_id FROM `#__posts` WHERE post_id='".intval($data['link'])."' LIMIT 1";
+		$query = "SELECT post_name, post_id FROM `#__posts` WHERE post_approve='1' AND post_date <= '".time_now."' AND post_id='".intval($data['link'])."' LIMIT 1";
 		$post = $d->get_row($query);
 		return url('posts/'.($options['rewrite'] == 1? $post[0]['post_name'] : $post[0]['post_id']));
 		break;

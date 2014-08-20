@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -53,9 +53,6 @@ function module_contact_us_run()
 	}
 
 	$contact = get_param($_POST, 'contact-us');
-
-	($hook = get_hook('contact_us_start'))? eval($hook) : null;
-
 	if (isset($contact) && is_array($contact) && count($contact))
 	{
 		$message = null;
@@ -95,8 +92,6 @@ function module_contact_us_run()
 			$message .= 'کد امنیتی صحیح نمی باشد!<br />';
 		}
 		
-		($hook = get_hook('contact_us_validate'))? eval($hook) : null;
-
 		if (empty($message))
 		{
 			if (isset($receiver))
@@ -118,8 +113,6 @@ function module_contact_us_run()
 			$Body .= 'متن پیام: <br />'.nl2br($contact['message']).'<br />';
 			$Body .= '<hr/><b>این پیام از طریق بخش تماس با ما ارسال شده است</b>';
 
-			($hook = get_hook('contact_us_send'))? eval($hook) : null;
-
 			if (send_mail($toname, $toemail, $fromname, $fromemail, $subject, $Body))
 			{
 				echo message('پیام شما با موفقیت ارسال شد.', 'success');
@@ -134,7 +127,7 @@ function module_contact_us_run()
 		{
 			echo message($message, 'error');
 		}
-		exit;
+		die;
 	}
 	
 	set_title('تماس با ما');
@@ -180,8 +173,6 @@ function module_contact_us_run()
 		'{captcha}' => create_captcha('contact-us')
 	));
 	
-	($hook = get_hook('contact_us_end'))? eval($hook) : null;
-
 	if (!isset($file[2])) set_content('تماس با ما', $itpl->get_var()); else $tpl->assign('{content}', $itpl->get_var());	
 	unset($itpl, $members, $m, $a);
 }

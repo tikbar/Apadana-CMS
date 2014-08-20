@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -60,7 +60,7 @@ function module_m_run()
 			
 			foreach($posts as $post)
 			{
-				$tags = array(
+				$tpl->add_for('posts', array(
 					'{odd-even}' => odd_even(),
 					'{id}' => $post['post_id'],
 					'{url}' => url('m/'.$post['post_id']),
@@ -68,12 +68,8 @@ function module_m_run()
 					'{author}' => empty($post['post_author_alias'])? $post['post_author_neme'] : $post['post_author_alias'],
 					'replace' => array(
 						'|{date format=[\'"](.+?)[\'"]}|es' => 'jdate("\\1", "'.$post['post_date'].'")',
-					)
-				);
-				
-				($hook = get_hook('module_m_posts'))? eval($hook) : null;
-
-				$tpl->add_for('posts', $tags);
+					),
+				));
 			}
 			
 			$p = $pagination->build(url('m/page/{page}'), true);
@@ -119,8 +115,6 @@ function module_m_run()
 			));
 			$tpl->block('#\\[posts\\](.*?)\\[/posts\\]#s', '');
 		}
-
-		($hook = get_hook('module_m_list'))? eval($hook) : null;
 	}
 	else
 	{
@@ -157,20 +151,11 @@ function module_m_run()
 				unset($tags, $tag);
 			}
 
-			if ($post[0]['post_view'] == 2 && !member) $post[0]['post_text'] = message('این بخش فقط برای اعضا نمایش داده می شود!', 'error');
-			elseif ($post[0]['post_view'] == 3 && member) $post[0]['post_text'] = message('این بخش فقط برای کاربران مهمان نمایش داده می شود!', 'error');
-			elseif ($post[0]['post_view'] == 4 && !group_admin) $post[0]['post_text'] = message('این بخش فقط برای مدیران سایت نمایش داده می شود!', 'error');
-			elseif ($post[0]['post_view'] == 5 && !group_super_admin) $post[0]['post_text'] = message('این بخش فقط برای مدیر کل سایت نمایش داده می شود!', 'error');
-			else
-			{
-				$post[0]['post_text'] = replace_links($post[0]['post_text'].$post[0]['post_more']);
-			}
-
 			$tpl->assign(array(
 				'{id}' => $post[0]['post_id'],
 				'{url}' => url('m/'.$post[0]['post_id']),
 				'{title}' => $post[0]['post_title'],
-				'{text}' => $post[0]['post_text'],
+				'{text}' => $post[0]['post_text'].$post[0]['post_more'],
 				'{author}' => empty($post[0]['post_author_alias'])? $post[0]['post_author_neme'] : $post[0]['post_author_alias'],
 				'[post]' => null,
 				'[/post]' => null,
@@ -178,8 +163,6 @@ function module_m_run()
 
 			$tpl->block('|{date format=[\'"](.+?)[\'"]}|es', 'jdate("\\1", "'.$post[0]['post_date'].'")');
 			$tpl->block('#\\[not-post\\](.*?)\\[/not-post\\]#s', '');
-
-			($hook = get_hook('module_m_single'))? eval($hook) : null;
 		}
 		else
 		{

@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -15,11 +15,11 @@ function module_private_messages_info()
 {
 	return array(
 		'name' => 'private-messages',
-		'version' => '1.0.1',
+		'version' => '1.0',
 		'creationDate' => '2013-04-12 03:25:00',
 		'description' => 'ماژول پیام خصوصی آپادانا',
-		'author' => 'Apadana Development Team',
-		'authorEmail' => 'info@apadanacms.ir',
+		'author' => 'iman moodi',
+		'authorEmail' => 'imanmoodi@yahoo.com',
 		'authorUrl' => 'http://www.apadanacms.ir',
 		'license' => 'GNU/GPL',
 	);
@@ -44,7 +44,7 @@ function module_private_messages_install()
 	");
 	$d->insert('modules', array(
 		'module_name' => 'private-messages',
-		'module_version' => '1.0.1',
+		'module_version' => 1.0,
 		'module_status' => 0,
 	));
 	echo message('ماژول پیام خصوصی با موفقیت نصب شد.', 'success');

@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -29,8 +29,6 @@ function module_simple_links_run()
 	set_meta('description', 'لینکستان', 'add');
 	set_canonical(url('simple-links'));
 	set_content('لینکستان', block_simple_links());
-
-	($hook = get_hook('simple_links'))? eval($hook) : null;
 }
 
 function module_simple_links_sitemap(&$sitemap)
@@ -58,9 +56,6 @@ function block_simple_links($op = null, $id = null, $position = null)
 			$content .= '<li><a href="'.$row['link_href'].'"'.$row['link_target'].$row['link_description'].$row['link_direct_link'].'>'.$row['link_title'].'</a></li>'.n;
 		}
 		$content .= '</ul>';
-
-		($hook = get_hook('block_simple_links'))? eval($hook) : null;
-
 		unset($links, $row);
 	}
 	else

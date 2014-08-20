@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -22,8 +22,6 @@ function module_feed_run()
 	$_GET['c'] = $_GET['c']=='atom'? 'atom' : 'rss';
 	$type = $_GET['c']=='atom'? 'AtomGenerator' : 'RSSGenerator';
 	
-	($hook = get_hook('feed'))? eval($hook) : null;
-
 	if (function_exists('module_'.str_replace('-', '_', $_GET['b']).'_feed'))
 	{
 		try

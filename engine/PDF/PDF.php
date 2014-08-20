@@ -1,12 +1,12 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
- * @email: info@apadanacms.ir
- * @link: http://www.apadanacms.ir
+ * @author: Iman Moodi (Iman92)
+ * @email: info@parsnuke.com
+ * @link: http://www.parsnuke.com
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
- * @Apadana CMS is a Free Software
+ * @copyright: Copyright (C) 2012-2013 ParsNuke.com. All rights reserved.
+ * @ParsNuke CMS is a Free Software
  */
 
 defined('security') or exit('Direct Access to this location is not allowed.');

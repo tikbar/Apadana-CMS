@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -32,8 +32,6 @@ function module_sitemap_run()
 	if(!$sitemap->is_cache())
 	{
 		$sitemap->addItem(url, time(), 'always', '1.0');
-
-		($hook = get_hook('sitemap'))? eval($hook) : null;
 
 		foreach($modules as $mod)
 		{

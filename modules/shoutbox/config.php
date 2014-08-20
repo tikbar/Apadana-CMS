@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -50,9 +50,6 @@ function block_shoutbox($op, $id = null, $position = null)
 	set_head(file_exists(template_dir.'styles/shoutbox.css')? '<link href="'.url.'templates/'.$options['theme'].'/styles/shoutbox.css" type="text/css" rel="stylesheet" />' : '<link href="'.url.'modules/shoutbox/styles/default.css" type="text/css" rel="stylesheet" />');
 	set_head('<script type="text/javascript" src="'.url.'modules/shoutbox/javascript/functions.js"></script>');
 	$itpl = new template('modules/shoutbox/html/block.tpl');
-
-	($hook = get_hook('block_shoutbox'))? eval($hook) : null;
-
 	return $itpl->get_var();
 }
 

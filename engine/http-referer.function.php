@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -25,8 +25,6 @@ function http_referer()
 
 		if (isset($parse['host']) && !empty($referer) && strtolower($parse['host']) != domain && strtolower($parse['host']) != strtolower($_SERVER['HTTP_HOST']))
 		{
-			($hook = get_hook('http_referer'))? eval($hook) : null;
-
 			$d->insert('referer', array(
 				'ref_url' => $referer,
 				'ref_domain' => $parse['host'],

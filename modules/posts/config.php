@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -200,7 +200,7 @@ function get_posts($do)
 
 function posts_options()
 {
-	if (!$options = get_cache('options-posts'))
+	if (!$options = get_cache('posts-options'))
 	{
 		global $d;
 
@@ -595,7 +595,7 @@ function module_posts_feed(&$feeds)
 {
 	global $d, $options;
 
-	$query = "SELECT post_title, post_text, post_date, post_name, post_id FROM `#__posts` WHERE post_approve='1' AND post_date <= '".time_now."' ORDER BY post_date DESC LIMIT ".intval($options['feed-limit']);
+	$query = "SELECT post_title, post_text, post_date, post_name, post_id FROM `#__posts` WHERE post_approve='1' AND post_date <= '".time_now."' ORDER BY post_date DESC LIMIT 1000";
 	$posts = $d->get_row($query);
 
 	if (is_array($posts) && count($posts))

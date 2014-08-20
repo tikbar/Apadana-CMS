@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -18,8 +18,8 @@ function module_contact_us_info()
 		'version' => '1.0',
 		'creationDate' => '2013-04-12 03:25:00',
 		'description' => 'ماژول تماس با ما برای آپادانا.',
-		'author' => 'Apadana Development Team',
-		'authorEmail' => 'info@apadanacms.ir',
+		'author' => 'iman moodi',
+		'authorEmail' => 'imanmoodi@yahoo.com',
 		'authorUrl' => 'http://www.apadanacms.ir',
 		'license' => 'GNU/GPL',
 	);

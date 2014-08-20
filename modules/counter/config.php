@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -40,8 +40,6 @@ function counter_data()
 		$cache['block-counter'] = $d->fetch($result);
 	}
 
-	($hook = get_hook('counter_data'))? eval($hook) : null;
-
 	return $cache['block-counter'];
 }
 
@@ -68,9 +66,6 @@ function block_counter($op = null, $id = null, $position= null)
 	$html .= '<li id="counter-year-count">بازدید سال: <b>'.intval($result['yearCount']).'</b></li>'.n;
 	$html .= '<li id="counter-total-count">بازدید کل: <b>'.intval($result['totalCount']).'</b></li>'.n;
 	$html .= '</ul>';
-
-	($hook = get_hook('block_counter'))? eval($hook) : null;
-
 	return $html;
 }
 
@@ -127,8 +122,6 @@ function module_counter_update()
 		$counter['browser_version'] = FALSE;
 	}
 
-	($hook = get_hook('counter_update'))? eval($hook) : null;
-
 	$counter = $d->escapeString($counter);
 
 	if (!empty($counter['browser_version']) && $d->numRows("SELECT `counter_name` FROM `#__counter` WHERE `counter_name`='Browser-".$counter['browser']."' AND `counter_version`='".$counter['browser_version']."'", true) <= 0)
@@ -158,7 +151,7 @@ function module_counter_update()
 
 	/* Save on the databases the obtained values */
 
-	$query  = 'UPDATE `#__counter` SET `counter_value`=`counter_value`+1 WHERE ';
+ 	$query  = 'UPDATE `#__counter` SET `counter_value`=`counter_value`+1 WHERE ';
 	$query .= "(counter_name='Browser-".$counter['browser']."' AND counter_version='')";
 	$query .= !empty($counter['browser_version'])? " OR (counter_name='Browser-".$counter['browser']."' AND counter_version='".$counter['browser_version']."')" : null;
 	$query .= " OR (counter_name='OS-".$counter['os']."' AND counter_version='')";
@@ -171,10 +164,7 @@ function module_counter_update()
 		$query .= " OR (counter_name='Month-".jdate('Y-m')."')";
 		$query .= " OR (counter_name='Day-".jdate('Y-m-d')."')";
 	}
-
-	($hook = get_hook('counter_update_query'))? eval($hook) : null;
-
-	$d->query($query);
+ 	$d->query($query);
 	unset($total, $query, $counter);
 	
 	/* session */

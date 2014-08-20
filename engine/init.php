@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -46,7 +46,6 @@ define('rtl', true);
 require_once(engine_dir.'config.inc.php');
 require_once(engine_dir.'version.inc.php');
 require_once(engine_dir.'functions.php');
-require_once(engine_dir.'hook.function.php');
 require_once(engine_dir.'cache.function.php');
 require_once(engine_dir.'filter.function.php');
 require_once(engine_dir.'jalali-date.function.php');
@@ -165,7 +164,6 @@ else
 
 $_GET['a'] = isset($_GET['a'])? $_GET['a'] : null;
 
-$page = array();
 $page['theme'] = null;
 $page['title'] = empty($options['title'])? 'Apadana Cms v'.version : $options['title'];
 $page['meta']['description'] = $options['meta-desc'];
@@ -174,7 +172,6 @@ $page['meta']['robots'] = null;
 $page['canonical'] = null;
 $page['head'] = array();
 $cache = array();
-$hooks = array();
 
 if (isset($_GET['admin']) && $_GET['admin'] == $options['admin'] && $options['admin'] != '')
 {
@@ -245,7 +242,5 @@ if (file_exists(root_dir.'templates/'.$options['theme'].'/functions.php'))
 {
 	require_once(root_dir.'templates/'.$options['theme'].'/functions.php');
 }
-
-($hook = get_hook('init'))? eval($hook) : null;
 
 ?>

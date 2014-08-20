@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -27,8 +27,6 @@ class shoutbox
 			$msg = str_replace('{', '&#x7B;', $msg);
 			$msg = preg_replace('#\s{2,}#', ' ', $msg);
 
-			($hook = get_hook('shoutbox_insert_start'))? eval($hook) : null;
-
 			if (!group_admin && $d->numRows("SELECT `shout_id` FROM `#__shoutbox` WHERE `shout_member`='".member_name."' AND `shout_time`>'".(time_now-30)."'", true) > 0)
 			{
 				echo '<div class="shoutbox-error">میان هر پیام باید 30 ثانیه زمان باشد!</div>';
@@ -48,21 +46,15 @@ class shoutbox
 					}
 					else
 					{
-						$array = array(
+						$d->insert('shoutbox', array(
 							'shout_time' => time_now,
 							'shout_member' => member_name,
-							'shout_message' => $msg
-						);
-						
-						($hook = get_hook('shoutbox_insert_query'))? eval($hook) : null;
-
-						$d->insert('shoutbox', $array);
+							'shout_message' => $msg,
+						));
 						echo '<script>apadana.value("shoutbox-textarea", "")</script>';
 					}
 				}
 			}
-
-			($hook = get_hook('shoutbox_insert_end'))? eval($hook) : null;
 		}
 		$this->getMessages();
 	}
@@ -82,8 +74,6 @@ class shoutbox
 			$row = $d->fetch();
 			if (member_name == $row['shout_member'] || group_admin == 1)
 			{
-				($hook = get_hook('shoutbox_delete'))? eval($hook) : null;
-
 				$d->delete('shoutbox', "`shout_id`='".$id."'", 1);
 				echo '<div class="shoutbox-success">پیام شماره '.$id.' حذف شد!</div>';
 			}
@@ -117,8 +107,6 @@ class shoutbox
 			$file = get_tpl(root_dir.'modules/shoutbox/html/||block.tpl', template_dir.'||shoutbox/block.tpl');
 			$itpl = new template($file[1], $file[0]);
 			
-			($hook = get_hook('shoutbox_get_messages_start'))? eval($hook) : null;
-
 			while ($row = $d->fetch())
 			{
 				$itpl->add_for('message', array(
@@ -132,9 +120,7 @@ class shoutbox
 					)
 				));
 			}
-
-			($hook = get_hook('shoutbox_get_messages_end'))? eval($hook) : null;
-
+			
 			$itpl->display();
 		}
 		exit;
@@ -165,8 +151,6 @@ class shoutbox
 		$file = get_tpl(root_dir.'modules/shoutbox/html/||index.tpl', template_dir.'||shoutbox/archive.tpl');
 		$itpl = new template($file[1], $file[0]);
 
-		($hook = get_hook('shoutbox_archive_start'))? eval($hook) : null;
-
 		$d->query("SELECT * FROM `#__shoutbox` ORDER BY `shout_id` {$order} LIMIT $pagination->Start, $pagination->End");
 		if ($d->numRows() >= 1)
 		{
@@ -193,8 +177,6 @@ class shoutbox
 					$array['replace']['#\\[delete\\](.*?)\\[/delete\\]#s'] = '';
 				}
 				
-				($hook = get_hook('shoutbox_archive_item'))? eval($hook) : null;
-
 				$itpl->add_for('message', $array);
 			}
 			
@@ -260,8 +242,6 @@ class shoutbox
 			'{order}' => $order,
 			'{page}' => $_page,
 		));
-
-		($hook = get_hook('shoutbox_archive_end'))? eval($hook) : null;
 
 		if (is_ajax())
 		{

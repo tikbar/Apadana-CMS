@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -27,14 +27,10 @@ function clean_url($url)
     return $url;
 }
 
-require_once(engine_dir.'config.inc.php');
-error_reporting(error_reporting? E_ALL : 0);
-
-if (error_reporting !== true && (!isset($_SERVER['HTTP_REFERER']) || clean_url($_SERVER['HTTP_REFERER']) != clean_url($_SERVER['HTTP_HOST'])))
-{
+if(!isset($_SERVER['HTTP_REFERER']) || clean_url($_SERVER['HTTP_REFERER']) != clean_url($_SERVER['HTTP_HOST']))
 	exit('Nice TRY!');
-}
 
+require_once(engine_dir.'config.inc.php');
 mt_srand((double)microtime()*1000000);
 $code = mt_rand(10000, 999999);
 $code = substr($code, 0, 4);
@@ -66,7 +62,7 @@ imagecopymerge($bgImg, $nmImg3,30,$ys3,0,0,15,20,80);
 imagecopymerge($bgImg, $nmImg4,45,$ys4,0,0,15,20,80);
 
 header('Content-type: image/jpg');
-imagejpeg($bgImg);
+imagejpeg($bgImg, '', 100);
 imagedestroy($bgImg);
 imagedestroy($nmImg1);
 imagedestroy($nmImg2);

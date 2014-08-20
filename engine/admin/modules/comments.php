@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -229,11 +229,6 @@ function _edit()
 
 	if (isset($comment) && is_array($comment) && count($comment))
 	{
-		$d->query("SELECT `option_value` FROM `#__options` WHERE `option_name`='comments' LIMIT 1");
-		$comments_options = $d->fetch();
-		$d->freeResult();
-		$comments_options = maybe_unserialize($comments_options['option_value']);
-
 		$msg = array();
 		$comment['author'] = isset($comment['author'])? htmlencode($comment['author']) : null;
 		$comment['author-email'] = isset($comment['author-email'])? nohtml($comment['author-email']) : null;
@@ -252,14 +247,11 @@ function _edit()
 			$msg[] = 'متن نظر را پاک کرده اید!';
 		}
 		
-		if ($comments_options['email'] == 1)
+		if (empty($comment['author-email']) || !validate_email($comment['author-email']))
 		{
-			if (empty($comment['author-email']) || !validate_email($comment['author-email']))
-			{
-				$msg[] = 'ایمیل وارد شده صحیح نیست!';
-			}
+			$msg[] = 'ایمیل وارد شده صحیح نیست!';
 		}
-
+		
 		if ($comment['author-url'] != '' && !validate_url($comment['author-url']))
 		{
 			$msg[] = 'آدرس وب سایت نویسنده نظر معتبر نیست!';
@@ -271,8 +263,6 @@ function _edit()
 		}
 		else
 		{
-			#$comment['text'] = template_off($comment['text']);
-			#$comment['answer'] = template_off($comment['answer']);
 			$comment['text'] = str_replace('{', '&#x7B;', $comment['text']);
 			$comment['answer'] = str_replace('{', '&#x7B;', $comment['answer']);
 		

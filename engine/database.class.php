@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -433,7 +433,7 @@ class database
 		    $string = explode("\n", $string);
 		    $string = array_map("trim", $string);
 		    $string = implode("\n", $string);
-			echo("\n<!-- ERROR SQL! -->\n<div style='background:#FFCCCC;border:#FF6A6A 1px solid;padding:5px;margin:5px;direction:ltr;text-align:left'>\n<strong>[SQL] [".$this->error_number()."] ".$this->error_string()."</strong><br />\n<b>STRING:</b><pre style=\"direction:ltr;text-align:left;overflow-x:auto;\">{$string}</pre>\n</div>\n<!-- Apadana CMS! -->\n\n");
+			echo("\n<!-- ERROR SQL! -->\n<div style='background:#FFCCCC;border:#FF6A6A 1px solid;padding:5px;margin:5px;direction:ltr;text-align:left'>\n<strong>[SQL] [".$this->error_number()."] ".$this->error_string()."</strong><br />\n<b>STRING:</b><pre style=\"direction:ltr;text-align:left;overflow-x:auto;\">{$string}</pre>\n</div>\n<!-- Apadana Cms CMS! -->\n\n");
 		}
 		else
 		{

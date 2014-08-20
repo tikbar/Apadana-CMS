@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -257,7 +257,7 @@ function _edit()
 			$message .= 'گروه انتخاب شده برای کاربر معتبر نیست!<br>';
 		}
 
-		if ($postMember['id'] == 1 && $postMember['group'] != 1)
+		if ($postMember['id']==1 && $postMember['group'] != 1)
 		{
 			$message .= 'این کاربر باید مدیرکل سایت باشد!<br>';
 		}

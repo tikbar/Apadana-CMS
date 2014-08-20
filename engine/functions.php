@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -40,7 +40,6 @@ function replace_links($text)
 	
 	if (isset($options) && $options['replace-link'] == 1 && member == 0)
 	{
-		($hook = get_hook('replace_links'))? eval($hook) : null;
 		return preg_replace('#<a(.*?)href=["\'](.*?)["\'](.*?)>(.*?)</a>#i', '<a\\1href="javascript:alert(\'فقط کاربران عضو به این لینک دسترسی دارند!\')"\\3 rel="nofollow">\\4</a><!-- apadanacms.ir -->', $text);
 	}
 	else
@@ -199,14 +198,12 @@ function refresh($url, $time = 3, $siteurl = true)
 
 function smiles_replace($text)
 {
-	($hook = get_hook('smiles_replace'))? eval($hook) : null;
-
-	// $replace = array(
-		// ':)' => ':s-2:',
-		// ':(' => ':s-3:',
-		// ';)' => ':s-4:',
-	// );
-	// $text = str_replace(array_keys($replace), array_values($replace), $text);
+	$replace = array(
+		'(:' => ':s-2:',
+		'):' => ':s-3:',
+		';)' => ':s-4:',
+	);
+	$text = str_replace(array_keys($replace), array_values($replace), $text);
 	
 	for ($o = 1; $o <= 75; $o++)
 	{
@@ -271,7 +268,7 @@ function is_ajax()
 
 function is_rtl()
 {
-	return (defined('rtl') && rtl === true? true : false);
+	return (defined('rtl') && rtl===true);
 }
 
 function apadana_chmod($file, $mode)
@@ -309,35 +306,29 @@ function get_ip()
 
 function solve_persian($content)
 {
-	$arabic = array('ي', 'ك', '٤', '٥', '٦');
+	$arabic = array('ی', 'ک', '٤', '٥', '٦');
 	$persian = array('ی', 'ک', '۴', '۵', '۶');
 	return str_replace($arabic, $persian, $content);
 }
 
 function un_register_globals()
 {
-	if (!ini_get('register_globals'))
-	{
+	if ( !ini_get('register_globals') )
 		return;
-	}
 
-	if (isset($_REQUEST['GLOBALS']))
-	{
+	if ( isset($_REQUEST['GLOBALS']) )
 		exit('GLOBALS overwrite attempt detected');
-	}
 
 	// Variables that shouldn't be unset
 	$noUnset = array('GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'apadana');
 
 	$input = array_merge($_GET, $_POST, $_COOKIE, $_SERVER, $_ENV, $_FILES, isset($_SESSION) && is_array($_SESSION) ? $_SESSION : array());
-	foreach ($input as $k => $v)
-	{
-		if (!in_array($k, $noUnset) && isset($GLOBALS[$k]))
+	foreach ( $input as $k => $v )
+		if ( !in_array($k, $noUnset) && isset($GLOBALS[$k]) )
         {
 			$GLOBALS[$k] = NULL;
 			unset($GLOBALS[$k]);
 		}
-	}
 }
 
 function file_size($size)
@@ -458,10 +449,8 @@ function dump($var, $filter = 1, $stop = 1)
 
 function html_compaction($html)
 {
-	($hook = get_hook('html_compaction_start'))? eval($hook) : null;
-
     $array = array();
-	if ($number = preg_match_all('/<(script|pre)(.*)>(.*)<\/\\1>/sUi', $html, $matches))
+	if ($number = preg_match_all('/<script(.*)>(.*)<\/script>/sUi', $html, $matches))
 	{
 		for ( $i = 0; $i < $number; $i++ )
 		{
@@ -469,7 +458,7 @@ function html_compaction($html)
 			{
 				$key = rand(11111111, 99999999).generate_password(20, null).rand(11111111, 99999999);
 				$array[$key] = trim($matches[0][$i]);
-				$html = str_replace($matches[0][$i], '<#code:'.$key.':code#>', $html);
+				$html = str_replace($matches[0][$i], '<#script:'.$key.':script#>', $html);
 			}
 		}
 	}
@@ -484,11 +473,9 @@ function html_compaction($html)
 
     foreach ($array as $key => $js)
     {
-		$html = str_replace('<#code:'.$key.':code#>', $js, $html);
+		$html = str_replace('<#script:'.$key.':script#>', $js, $html);
     }
     unset($array, $key, $js, $matches, $number);
-
-	($hook = get_hook('html_compaction_end'))? eval($hook) : null;
 
     return $html;
 }
@@ -496,8 +483,8 @@ function html_compaction($html)
 function check_can_gzip()
 {
 	if (headers_sent() || connection_aborted() || ! function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) return false;
-	if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip') !== false) return 'x-gzip';
-	if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) return 'gzip';
+	if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip') !== false) return 'x-gzip';
+	if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) return 'gzip';
 	return false;
 }
 
@@ -506,11 +493,7 @@ function gzip_out()
 	global $tpl, $d, $page, $options;
 
 	$contents = ob_get_contents();
-	
-	if (ob_get_length() !== FALSE)
-	{
-		ob_end_clean();
-	}
+	ob_end_clean();
 
 	$info = template_info($options['theme']);
 
@@ -519,20 +502,15 @@ function gzip_out()
 		$contents = html_compaction($contents);
 	}
 
-	($hook = get_hook('gzip_out'))? eval($hook) : null;
-
 	$encoding = check_can_gzip();
-	if ((!defined('disable_gzip') || disable_gzip !== true) && $encoding)
+	if ($encoding)
 	{
 		header('Content-Encoding: '.$encoding);
 		$contents = gzencode($contents, 9, FORCE_GZIP);
 	}
 	else
 	{
-		if (ob_get_length() !== FALSE)
-		{
-			ob_end_flush();
-		}
+		ob_end_flush();
 	}
 
 	$d->close();

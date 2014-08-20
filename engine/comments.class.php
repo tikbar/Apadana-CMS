@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
 **/
 
@@ -88,8 +88,6 @@ class comments
 		$form = array();
 
 		$itpl = new template('comments.tpl', root_dir.'templates/'.$options['theme'].'/');
-
-		($hook = get_hook('comments_build_start'))? eval($hook) : null;
 
 		if (is_array($this->comments) && count($this->comments))
 		{
@@ -240,8 +238,6 @@ class comments
 			$itpl->block('#\\[editor\\](.*?)\\[/editor\\]#s', '');
 		}
 
-		($hook = get_hook('comments_build_end'))? eval($hook) : null;
-
 		$tpl->assign('{content}', $itpl->get_var(), 'add');
 		unset($bbcode, $comments, $form, $com, $post_name, $itpl);
 	}
@@ -253,8 +249,6 @@ class comments
 		require_once(engine_dir.'captcha.function.php');
 		$message = array();
 		
-		($hook = get_hook('comments_post_start'))? eval($hook) : null;
-
 		if (member == 1)
 		{
 			$member = member::is('info');
@@ -341,9 +335,8 @@ class comments
 				$post['email'] = null;
 			}
 
-			#$post['text'] = template_off($post['text']);
 			$post['text'] = str_replace('{', '&#x7B;', $post['text']);
-			$post['text'] = preg_replace('#\s{2,}#', ' ', $post['text']);
+			#$post['text'] = preg_replace('#\s{2,}#', ' ', $post['text']);
 
 			$arr = array(
 				'comment_type' => $this->type,
@@ -364,16 +357,12 @@ class comments
 				unset($_POST['comment']);
 				remove_captcha('comment');
 				remove_cache('comments', true);
-				($hook = get_hook('comments_post_save'))? eval($hook) : null;
 			}
 			else
 			{
 				$this->message = 'در ذخیره نظر خطایی رخ داده مجدد تلاش کنید!';
 			}
 		}
-
-		($hook = get_hook('comments_post_end'))? eval($hook) : null;
-
 		unset($text, $message, $post, $arr);
 	}
 }

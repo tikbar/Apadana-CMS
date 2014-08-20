@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -446,12 +446,10 @@ function _new()
 		}
 		else
 		{
-			$posts['text'] = template_off($posts['text']);
-			$posts['more'] = template_off($posts['more']);
-			// $posts['text'] = str_replace('[', '&#x5B;', $posts['text']);
-			// $posts['text'] = str_replace('{', '&#x7B;', $posts['text']);
-			// $posts['more'] = str_replace('[', '&#x5B;', $posts['more']);
-			// $posts['more'] = str_replace('{', '&#x7B;', $posts['more']);
+			$posts['text'] = str_replace('[', '&#x5B;', $posts['text']);
+			$posts['text'] = str_replace('{', '&#x7B;', $posts['text']);
+			$posts['more'] = str_replace('[', '&#x5B;', $posts['more']);
+			$posts['more'] = str_replace('{', '&#x7B;', $posts['more']);
 		
 			$id = $d->insert('posts', array(
 				'post_title' => $posts['title'],
@@ -479,10 +477,8 @@ function _new()
 						$value = trim($value);
 						if (!isset($fields[$field]) || $value == '') continue;
 
-						$value = template_off($value);
-						$value = template_off($value);
-						// $value = str_replace('[', '&#x5B;', $value);
-						// $value = str_replace('{', '&#x7B;', $value);
+						$value = str_replace('[', '&#x5B;', $value);
+						$value = str_replace('{', '&#x7B;', $value);
 
 						$d->insert('fields', array(
 							'field_link' => $id,
@@ -623,7 +619,6 @@ function _new()
 			
 			$itpl->add_for('fields', array(
 				'{name}' => trim($f_name),
-				'{title}' => $f_info['title'],
 				'{input}' => $input,
 				'replace' => array(
 					'#\\[require\\](.*?)\\[/require\\]#s' => $f_info['require'] == 1? '\\1' : '',
@@ -782,10 +777,8 @@ function _edit()
 						$value = trim($value);
 						if (!isset($fields[$field]) || $value == '') continue;
 
-						$value = template_off($value);
-						$value = template_off($value);
-						// $value = str_replace('[', '&#x5B;', $value);
-						// $value = str_replace('{', '&#x7B;', $value);
+						$value = str_replace('[', '&#x5B;', $value);
+						$value = str_replace('{', '&#x7B;', $value);
 						
 						$d->insert('fields', array(
 							'field_link' => $id,
@@ -797,12 +790,11 @@ function _edit()
 					}
 				}
 
-				$posts['text'] = template_off($posts['text']);
-				$posts['more'] = template_off($posts['more']);
-				// $posts['text'] = str_replace('[', '&#x5B;', $posts['text']);
-				// $posts['text'] = str_replace('{', '&#x7B;', $posts['text']);
-				// $posts['more'] = str_replace('[', '&#x5B;', $posts['more']);
-				// $posts['more'] = str_replace('{', '&#x7B;', $posts['more']);
+				$posts['text'] = str_replace('[', '&#x5B;', $posts['text']);
+				$posts['text'] = str_replace('{', '&#x7B;', $posts['text']);
+
+				$posts['more'] = str_replace('[', '&#x5B;', $posts['more']);
+				$posts['more'] = str_replace('{', '&#x7B;', $posts['more']);
 
 				$d->update('posts', array(
 					'post_title' => $posts['title'],
@@ -992,7 +984,6 @@ function _edit()
 				
 				$itpl->add_for('fields', array(
 					'{name}' => trim($f_name),
-					'{title}' => $f_info['title'],
 					'{input}' => $input,
 					'replace' => array(
 						'#\\[require\\](.*?)\\[/require\\]#s' => $f_info['require'] == 1? '\\1' : '',

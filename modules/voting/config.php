@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -67,8 +67,6 @@ function block_voting($op = null, $id = null, $position = null)
 
 		unset($ip, $members);
 		$html = voting_show($row, $form, false, null, rand(111111111, 999999999));
-
-		($hook = get_hook('block_voting'))? eval($hook) : null;
 	}
 	else
 	{
@@ -89,8 +87,6 @@ function voting_show($row, $form = false, $showPercent = false, $message = null,
 	$totalCount = array_sum($row['vote_result']);
 
 	$itpl = new template('modules/voting/html/block.tpl');
-
-	($hook = get_hook('voting_show_start'))? eval($hook) : null;
 
 	$progress = 1;
 	for ($i=1; $i<=$totalItemp; $i++)
@@ -146,8 +142,6 @@ function voting_show($row, $form = false, $showPercent = false, $message = null,
 		));
 		$itpl->block('#\\[form\\](.*?)\\[/form\\]#s', '');
 	}
-
-	($hook = get_hook('voting_show_end'))? eval($hook) : null;
 
 	return $itpl->get_var();
 }

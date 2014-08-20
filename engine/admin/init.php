@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -36,8 +36,6 @@ if (group_admin == 1 && isset($_GET['module']))
 {
 	$_GET['section'] = 'module';
 }
-
-($hook = get_hook('admin_init'))? eval($hook) : null;
 
 if (isset($_GET['section']) && !empty($_GET['section']))
 {

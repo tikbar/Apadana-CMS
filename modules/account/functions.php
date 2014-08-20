@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -23,8 +23,6 @@ function _register()
 	$message = $success = false;
 	$options_account = account_options();
 	$register = get_param($_POST, 'register');
-
-	($hook = get_hook('account_register_start'))? eval($hook) : null;
 
 	if ($options_account['register'] == 1 && isset($register) && is_array($register) && count($register) && isset($register['name']) && isset($register['email']) && isset($register['password']) && isset($register['password-repeat']))
 	{
@@ -123,8 +121,6 @@ function _register()
 				$Body .= 'نام کاربری شما: '.$register['name'].'<br />';				
 				$Body .= 'ایمیل: '.$register['email'];				
 				send_mail($register['name'], $register['email'], $options['title'], $options['mail'], 'عضویت در سایت '.$options['title'], $Body);
-
-				($hook = get_hook('account_register_save'))? eval($hook) : null;
 			}
 			else
 			{
@@ -167,9 +163,6 @@ function _register()
 	{
 		$html = message('متاسفیم، تا اطلاع ثانوی امکان ثبت عضو جدید وجود ندارد.', 'info');
 	}
-
-	($hook = get_hook('account_register_end'))? eval($hook) : null;
-
 	if (!isset($file[2])) set_content('عضویت در سایت', $html); else $tpl->assign('{content}', $html);	
 	unset($success, $message, $html, $register);
 }
@@ -183,8 +176,6 @@ function _login()
 
 	$msg = false;
 	$login = get_param($_POST, 'login');
-
-	($hook = get_hook('account_login_start'))? eval($hook) : null;
 
 	if (isset($login) && is_array($login) && count($login) && isset($login['username']) && isset($login['password']) && isset($login['submit']))
 	{
@@ -219,9 +210,7 @@ function _login()
 							'member_visits' => $result['member_visits']+1,
 							'member_lastip' => get_ip(),
 						), "`member_name`='{$login['username']}'", 1);
-
-						($hook = get_hook('account_login_success'))? eval($hook) : null;
-
+						
 						redirect(url('account'));
 					}
 					else
@@ -264,8 +253,6 @@ function _login()
 		$itpl->block('#\\[message\\](.*?)\\[/message\\]#s', '');
 	}
 
-	($hook = get_hook('account_login_end'))? eval($hook) : null;
-
 	if (!isset($file[2])) set_content('ورود به حساب کاربری', $itpl->get_var()); else $tpl->assign('{content}', $itpl->get_var());	
 	unset($msg, $html, $result);
 }
@@ -285,8 +272,6 @@ function _logout()
 		'member_lastvisit' => time(),
 	), "`member_id`='".member_id."'", 1);
 
-	($hook = get_hook('account_logout'))? eval($hook) : null;
-
 	redirect(url('account/login'));
 }
 
@@ -297,16 +282,12 @@ function _members()
 
 	$options_account = account_options();
 
-	($hook = get_hook('account_members'))? eval($hook) : null;
-
 	set_title('لیست کاربران');
 	set_meta('description', 'لیست کاربران', 'add');
 	set_canonical(url('account/members'));
 
 	if ($options_account['members'] == 1)
 	{	
-		($hook = get_hook('account_members_start'))? eval($hook) : null;
-
 		require_once(engine_dir.'pagination.class.php');
 		$total = $d->numRows("SELECT * FROM `#__members`", true);
 		$pagination = new pagination($total, intval($options_account['members-total']), $get_pages);
@@ -344,8 +325,6 @@ function _members()
 			));
 		}
 
-		($hook = get_hook('account_members_end'))? eval($hook) : null;
-
 		if (!isset($file[2])) set_content('لیست کاربران', $itpl->get_var()); else $tpl->assign('{content}', $itpl->get_var());	
 		$pagination->build(url('account/members/{page}'));
 	}
@@ -372,8 +351,6 @@ function _profile()
 	}
 	else
 	{
-		($hook = get_hook('account_profile_start'))? eval($hook) : null;
-
 		set_title($username);
 		set_canonical(url('account/profile/'.$member['member_name']));
 
@@ -463,9 +440,7 @@ function _profile()
 			));
 			$itpl->block('#\\[signature\\](.*?)\\[/signature\\]#s', '');
 		}
-
-		($hook = get_hook('account_profile_end'))? eval($hook) : null;
-
+		
 		if (!isset($file[2])) set_content('پروفایل', $itpl->get_var()); else $tpl->assign('{content}', $itpl->get_var());	
 		unset($itpl);
 	}
@@ -474,11 +449,8 @@ function _profile()
 function _index()
 {
 	global $d, $member_groups, $member;
-
 	if (!member)
 		redirect(url('account/login'));
-
-	($hook = get_hook('account_index_start'))? eval($hook) : null;
 
 	set_title('سامانه کاربری');
 	_menu();
@@ -575,8 +547,6 @@ function _index()
 		$itpl->block('#\\[signature\\](.*?)\\[/signature\\]#s', '');
 	}
 	
-	($hook = get_hook('account_index_end'))? eval($hook) : null;
-
 	if (!isset($file[2])) set_content('اطلاعات حساب کاربری شما', $itpl->get_var()); else $tpl->assign('{content}', $itpl->get_var());	
 	unset($itpl);
 }
@@ -590,8 +560,6 @@ function _profile_edit()
 
 	$message = false;
 	$profileEdit = get_param($_POST, 'profileEdit', null, 1);
-
-	($hook = get_hook('account_profile_edit_start'))? eval($hook) : null;
 
 	if (isset($profileEdit) && is_array($profileEdit) && count($profileEdit) && isset($profileEdit['email']) && isset($profileEdit['newsletter']) && isset($profileEdit['submit']))
 	{
@@ -686,9 +654,6 @@ function _profile_edit()
 	{
 		$itpl->block('#\\[message\\](.*?)\\[/message\\]#s', '');
 	}
-
-	($hook = get_hook('account_profile_edit_end'))? eval($hook) : null;
-
 	if (!isset($file[2])) set_content('ویرایش پروفایل', $itpl->get_var()); else $tpl->assign('{content}', $itpl->get_var());	
 	unset($itpl, $countries, $array);
 }
@@ -702,9 +667,6 @@ function _change_password()
 
 	$message = false;
 	$changePassword = get_param($_POST, 'changePassword');
-
-	($hook = get_hook('account_change_password_start'))? eval($hook) : null;
-
 	if (isset($changePassword) && is_array($changePassword) && count($changePassword) && isset($changePassword['pass']) && isset($changePassword['pass1']) && isset($changePassword['pass2']))
 	{
 		$changePassword['pass'] = ($changePassword['pass']);
@@ -792,9 +754,6 @@ function _change_password()
 	{
 		$itpl->block('#\\[message\\](.*?)\\[/message\\]#s', '');
 	}
-
-	($hook = get_hook('account_change_password_end'))? eval($hook) : null;
-
 	if (!isset($file[2])) set_content('تغییر پسورد', $itpl->get_var()); else $tpl->assign('{content}', $itpl->get_var());	
 	unset($itpl, $message, $changePassword);
 }
@@ -809,9 +768,6 @@ function _change_avatar()
 	$options_account = account_options();
 	$message = false;
 	$changeAvatar = get_param($_POST, 'changeAvatar');
-
-	($hook = get_hook('account_change_avatar_start'))? eval($hook) : null;
-
 	if ($options_account['avatar'] == 1 && isset($changeAvatar) && is_array($changeAvatar) && count($changeAvatar) && isset($changeAvatar['submit']))
 	{		
 		if (isset($_FILES['fileAvatar']) && is_array($_FILES['fileAvatar']) && count($_FILES['fileAvatar']))
@@ -873,9 +829,6 @@ function _change_avatar()
 		));
 		$itpl->block('#\\[disabled\\](.*?)\\[/disabled\\]#s', '');
 	}
-
-	($hook = get_hook('account_change_avatar_end'))? eval($hook) : null;
-
 	if (!isset($file[2])) set_content('تغییر آوارتار', $itpl->get_var()); else $tpl->assign('{content}', $itpl->get_var());	
 	unset($itpl, $message, $changeAvatar);
 }
@@ -887,8 +840,6 @@ function _upload_avatar($avatar=array(), $uid=0)
 
 	require_once(engine_dir.'upload.class.php');
 	$options_account = account_options();
-
-	($hook = get_hook('account_upload_avatar_start'))? eval($hook) : null;
 
 	if (!$avatar['name'] || !$avatar['tmp_name'])
 	{
@@ -1026,8 +977,6 @@ function _upload_avatar($avatar=array(), $uid=0)
 		'height' => intval($img_dimensions[1])
 	);
 
-	($hook = get_hook('account_upload_avatar_end'))? eval($hook) : null;
-
 	return $ret;
 }
 
@@ -1037,7 +986,6 @@ function _remove_avatars($uid, $exclude = null)
 		redirect(url('account/login'));
 
 	$avatarpath = root_dir.'uploads/avatars/';
-
 	$dir = opendir($avatarpath);
 	if ($dir)
 	{
@@ -1061,8 +1009,6 @@ function _remove_avatar()
 
 	_remove_avatars(member_id, '');
 
-	($hook = get_hook('account_remove_avatar'))? eval($hook) : null;
-
 	$d->update('members', array(
 		'member_avatar' => null,
 		'member_lastvisit' => time(),
@@ -1084,8 +1030,6 @@ function _forget()
 	$message = null;
 	$options_account = account_options();
 	$forget = get_param($_POST, 'forget');
-
-	($hook = get_hook('account_forget_start'))? eval($hook) : null;
 
 	if (is_array($forget) && count($forget))
 	{
@@ -1307,9 +1251,6 @@ function _forget()
 			$html = message('درخواست داده شده معتبر نمی باشد!', 'error');
 		}
 	}
-
-	($hook = get_hook('account_forget_end'))? eval($hook) : null;
-
 	if (!isset($file[2]))
 	{
 		set_content('بازیابی پسورد', $html);
@@ -1334,9 +1275,6 @@ function _menu()
 		'{image-change-avatar}' => file_exists(root_dir.'themes/'.$options['theme'].'/images/account/change-avatar.png')? 'themes/'.$options['theme'].'/images/account/change-avatar.png' : 'modules/account/images/change-avatar.png',
 		'{image-logout}' => file_exists(root_dir.'themes/'.$options['theme'].'/images/account/logout.png')? 'themes/'.$options['theme'].'/images/account/logout.png' : 'modules/account/images/logout.png',
 	));
-
-	($hook = get_hook('account_menu'))? eval($hook) : null;
-
 	if (!isset($file[2])) set_content('دسترسی سریع', $itpl->get_var()); else $tpl->assign('{content}', $itpl->get_var());	
 	unset($itpl);
 }

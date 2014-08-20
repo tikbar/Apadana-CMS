@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -61,7 +61,7 @@ if (!defined('no_headers') || no_headers === false)
     header('Pragma: no-cache');
 }
 
-if (!defined('no_template') || no_template !== true)
+if (!defined('no_template') || no_template === false)
 {
 	if (admin_page === false && !is_ajax())
 	{
@@ -70,7 +70,7 @@ if (!defined('no_template') || no_template !== true)
 		http_referer();
 	}
 
-	if (!defined('no_blocks') || no_blocks !== true)
+	if (!defined('no_blocks') || no_blocks === false)
 	{
 		require_once(engine_dir.'block.function.php');
 		blocks();
@@ -91,7 +91,7 @@ if (!defined('no_template') || no_template !== true)
 	$tpl->assign(array(
 		'{head}' => head(),
 		'{num-queries}' => $d->num_queries,
-		'{creation-time}' => apadana_substr(microtime(true)-start_time, 0, error_reporting? 7 : 4),
+		'{creation-time}' => apadana_substr(microtime(true)-start_time, 0, 4),
 		'{memory-get-usage}' => memoryGetUsage(),
 	));
 
@@ -105,10 +105,8 @@ if (!defined('no_template') || no_template !== true)
 		$tpl->load($page['theme'].'.tpl');
 	}
 
-	($hook = get_hook('index'))? eval($hook) : null;
-
-	$tpl->tags['{content}'] = '<div id="apadana-ajax-content">'.(isset($tpl->tags['{content}'])? $tpl->tags['{content}'] : null).'</div>';
-	$tpl->display();
+    $tpl->tags['{content}'] = '<div id="apadana-ajax-content">'.(isset($tpl->tags['{content}'])? $tpl->tags['{content}'] : null).'</div>';
+    $tpl->display();
 }
 
 gzip_out();

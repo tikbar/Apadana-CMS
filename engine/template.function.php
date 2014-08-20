@@ -1,62 +1,15 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
 defined('security') or exit('Direct Access to this location is not allowed.');
-
-function template_off($string, $simple = false)
-{
-	if (empty($string))
-	{
-		return $string;
-	}
-	if ($simple)
-	{
-		$string = str_replace('[', '&#x5B;', $string);
-		$string = str_replace('{', '&#x7B;', $string);
-	}
-	else
-	{
-		$array = array();
-		if ($number = preg_match_all('/<(script|style)(.*)>(.*)<\/\\1>/sUi', $string, $matches))
-		{
-			for ( $i = 0; $i < $number; $i++ )
-			{
-				if (!empty($matches[0][$i]))
-				{
-					$key = rand(11111111, 99999999).generate_password(20, null).rand(11111111, 99999999);
-					$array[$key] = $matches[0][$i];
-					$string = str_replace($matches[0][$i], '<~#code:'.$key.':code#~>', $string);
-				}
-			}
-		}
-		if (strpos($string, '[') !== FALSE)
-		{
-			$string = preg_replace('#\\[([a-zA-Z0-9-_]+)\\](.*?)\\[/\\1\\]#s', '&#x5B;\\1]\\2&#x5B;/\\1]', $string);
-		}
-		if (strpos($string, '[') !== FALSE)
-		{
-			$string = preg_replace('#\\[/([a-zA-Z0-9-_]+)\\]#s', '&#x5B;/\\1]', $string);
-		}
-		if (strpos($string, '{') !== FALSE)
-		{
-			$string = preg_replace('#\\{([a-zA-Z0-9-_]+)\\}#s', '&#x7B;\\1}', $string);
-		}
-		foreach ($array as $key => $code)
-		{
-			$string = str_replace('<~#code:'.$key.':code#~>', $code, $string);
-		}
-		unset($array, $key, $code, $matches, $number);
-	}
-	return $string;	
-}
 
 function template_exists($theme)
 {
@@ -136,7 +89,7 @@ function head()
 	$Header .= '<base href="'.url.'" />'.n;
 	$Header .= '<meta http-equiv="content-type" content="text/html; charset='.charset.'" />'.n;
 	$Header .= '<meta name="author" content="'.$options['title'].'" />'.n;
-	$Header .= base64_decode('PG1ldGEgbmFtZT0iZ2VuZXJhdG9yIiBjb250ZW50PSJBcGFkYW5hIENNUw==') . version . base64_decode('IiAvPg==').n;
+	$Header .= base64_decode('PG1ldGEgbmFtZT0iZ2VuZXJhdG9yIiBjb250ZW50PSJBcGFkYW5hIENtcyBDb3B5cmlnaHQgwqkg') . date('Y') . base64_decode('IGJ5IEltYW4gTW9vZGkgKHd3dy5hcGFkYW5hY21zLmlyKSIgLz4=').n;
 	$Header .= '<meta name="description" content="'.$page['meta']['description'].'" />'.n;
 	$Header .= '<meta name="keywords" content="'.$page['meta']['keywords'].'" />'.n;
 	$Header .= '<meta name="distribution" content="global" />'.n;
@@ -144,7 +97,7 @@ function head()
 	$Header .= '<meta name="revisit-after" content="1 days" />'.n;
 	$Header .= '<meta name="rating" content="general" />'.n;
 
-    if (($_GET['a'] == $options['default-module'] && (!isset($_GET) || empty($_GET))) || (!isset($_GET) || empty($_GET)))
+    if (($_GET['a'] == $options['default-module'] && (!isset($_SERVER['QUERY_STRING']) || empty($_SERVER['QUERY_STRING']))) || (!isset($_SERVER['QUERY_STRING']) || empty($_SERVER['QUERY_STRING'])))
 	{
 		$Header .= '<link rel="canonical" href="'.url.'" />'. n;
 	}

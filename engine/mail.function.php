@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -19,8 +19,6 @@ function send_mail($toname, $toemail, $fromname, $fromemail, $subject, $message,
 	require_once(engine_dir.'PHPMailer/class.smtp.php');
 
 	$mail = new PHPMailer();
-
-	($hook = get_hook('send_mail_start'))? eval($hook) : null;
 
 	if (empty($options['smtp-host']) || empty($options['smtp-username']) || empty($options['smtp-password']))
 	{
@@ -100,8 +98,6 @@ function send_mail($toname, $toemail, $fromname, $fromemail, $subject, $message,
 	$mail->Subject = $subject;
 	$mail->Body = $message;
 	
-	($hook = get_hook('send_mail_end'))? eval($hook) : null;
-
 	if (!$mail->Send())
 	{
 		#echo $mail->ErrorInfo;

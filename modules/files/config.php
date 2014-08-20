@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -30,8 +30,6 @@ function module_files_run()
 	}
 	else
 	{
-		($hook = get_hook('module_files_start'))? eval($hook) : null;
-
 		$query = $d->query("SELECT * FROM `#__files` WHERE `file_".($options['rewrite'] == 1? 'slug' : 'id')."` = '".$d->escapeString($slug)."' LIMIT 1");
 		if ($d->numRows($query) <= 0)
 		{
@@ -69,9 +67,9 @@ function module_files_run()
 				require_once(engine_dir.'captcha.function.php');
 				$html = null;
 
-				if (isset($_POST['captcha']) || isset($_SESSION['file-checked'][$row['file_id']]))
+				if (isset($_POST['captcha']))
 				{
-					if (!isset($_SESSION['file-checked'][$row['file_id']]) && !validate_captcha('file', $_POST['captcha']))
+					if (!validate_captcha('file', $_POST['captcha']))
 					{
 						$html = message('کد امنیتی را صحیح وارد نکرده اید!', 'error');
 					}
@@ -79,7 +77,6 @@ function module_files_run()
 					{
 						if (file_exists(root_dir.$row['file_url']) && is_readable(root_dir.$row['file_url']))
 						{
-							$_SESSION['file-checked'][$row['file_id']] = true;
 							require_once(engine_dir.'httpdownload.class.php');
 							remove_captcha('file');
 
@@ -104,11 +101,9 @@ function module_files_run()
 
 							unset($members, $row['file_members']);
 
-							($hook = get_hook('module_files_download'))? eval($hook) : null;
-
 							$object = new httpdownload;
 							$object->set_byfile(root_dir.$row['file_url']);
-							$object->use_resume = false;
+							$object->use_resume = true;
 							$object->download();
 							exit;
 						}
@@ -128,14 +123,9 @@ function module_files_run()
 				$html .= create_captcha('file');
 				$html .= '<br/><input type="submit" value="دانلود فایل" />';
 				$html .= '</center></form>';
-
-				($hook = get_hook('module_files'))? eval($hook) : null;
-
 				set_content('دانلود فایل '.basename($row['file_url']), $html);
 			}
 		}
-
-		($hook = get_hook('module_files_end'))? eval($hook) : null;
 	}
 }
 

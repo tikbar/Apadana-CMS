@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -30,8 +30,6 @@ function blocks()
 			set_cache('blocks', $cache['blocks']);
 		}
 	}
-
-	($hook = get_hook('blocks_start'))? eval($hook) : null;
 
 	$positions = template_info($options['theme']);
 	$positions = explode(',', $positions['positions']);
@@ -200,8 +198,6 @@ function blocks()
 			$tpl->block('#\\[not-block-'.$position.'\\](.*?)\\[/not-block-'.$position.'\\]#s', '');
 		}
 	}
-
-	($hook = get_hook('blocks_end'))? eval($hook) : null;
 
 	unset($position, $blocks, $block, $page, $p, $positions, $test, $parse, $current);
 }

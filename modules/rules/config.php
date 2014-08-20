@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -22,13 +22,11 @@ function module_rules_run()
 		set_cache('options-rules', $options['rules'], false);
 	}
 
-	set_theme('rules');
 	set_title('قوانین');
 	set_meta('description', 'قوانین سایت', 'add');
 	set_canonical(url('rules'));
-	set_content('قوانین سایت', empty($options['rules'])? message('فعلا قانونی نیست!', 'info') : $options['rules']);
 
-	($hook = get_hook('module_rules'))? eval($hook) : null;
+	set_content('قوانین سایت', empty($options['rules'])? message('فعلا قانونی نیست!', 'info') : $options['rules']);
 }
 
 function module_licence_sitemap(&$sitemap)

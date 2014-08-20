@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -53,8 +53,6 @@ function module_error_run($type = null, $exit = false)
 		set_canonical(url('error/404')); // Not Found
 		$message = 'اطلاعات درخواستی شما در سایت یافت نشد!'; // A file doesn't exist at that address
 	}
-
-	($hook = get_hook('module_error'))? eval($hook) : null;
 
 	set_content('خطا', message($message, 'error'));
 

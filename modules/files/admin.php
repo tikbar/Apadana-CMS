@@ -1,11 +1,11 @@
 <?php
 /**
  * @In the name of God!
- * @author: Apadana Development Team
+ * @author: Iman Moodi (Iman92)
  * @email: info@apadanacms.ir
  * @link: http://www.apadanacms.ir
  * @license: http://www.gnu.org/licenses/
- * @copyright: Copyright © 2012-2014 ApadanaCms.ir. All rights reserved.
+ * @copyright: Copyright © 2012-2013 ApadanaCms.ir. All rights reserved.
  * @Apadana CMS is a Free Software
  */
 
@@ -15,11 +15,11 @@ function module_files_info()
 {
 	return array(
 		'name' => 'files',
-		'version' => '1.0.1',
+		'version' => '1.0',
 		'creationDate' => '2012-07-21 18:00:03',
 		'description' => 'ماژول فایل‌ها برای آپادانا.',
-		'author' => 'Apadana Development Team',
-		'authorEmail' => 'info@apadanacms.ir',
+		'author' => 'iman moodi',
+		'authorEmail' => 'imanmoodi@yahoo.com',
 		'authorUrl' => 'http://www.apadanacms.ir',
 		'license' => 'GNU/GPL',
 	);
@@ -46,7 +46,7 @@ function module_files_install()
 	");
 	$d->insert('modules', array(
 		'module_name' => 'files',
-		'module_version' => '1.0.1',
+		'module_version' => '1.0',
 		'module_status' => 0,
 	));
 	echo message('ماژول فایل‌ها با موفقیت نصب شد.', 'success');
